@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepo extends JpaRepository<StudentAttendance, Integer> {
-        List<StudentAttendance> findByEnrollmentNo(String enrollmentNo);
+        List<StudentAttendance> findByStudentEnrollment(String enrollmentNo);
 }

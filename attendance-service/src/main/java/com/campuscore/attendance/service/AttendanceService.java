@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class AttendanceService {
-    private StaffRepo  staffRepo;
-    private StudentRepo studentRepo;
+    private final StaffRepo  staffRepo;
+    private final StudentRepo studentRepo;
     public StaffAttendance punchin(String staffId, String staffName, StaffRole role){
         LocalDate today = LocalDate.now();
         if(staffRepo.findByStaffIdAndDate(staffId,today).isPresent()){
@@ -92,7 +92,7 @@ public class AttendanceService {
     }
 
     public StudentSummaryDto getStudentSummary(String enrollment) {
-        List<StudentAttendance> all = studentRepo.findByEnrollmentNo(enrollment);
+        List<StudentAttendance> all = studentRepo.findByStudentEnrollment(enrollment);
         return buildSummary(enrollment, all);
     }
 

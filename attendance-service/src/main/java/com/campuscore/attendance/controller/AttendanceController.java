@@ -17,7 +17,8 @@ import java.util.List;
 public class AttendanceController {
 
     private final AttendanceService service;
-
+    @org.springframework.beans.factory.annotation.Value("${server.port}")
+    private String serverPort;
     @PostMapping("/staff/punch-in")
     public ResponseEntity<StaffAttendance> punchIn(
             @RequestParam String staffId,
@@ -44,5 +45,9 @@ public class AttendanceController {
     @GetMapping("/defaulters")
     public ResponseEntity<List<StudentSummaryDto>> getDefaulters() {
         return ResponseEntity.ok(service.getAllDefaulters());
+    }
+        @GetMapping("/info")
+    public ResponseEntity<String> getInfoOfInstanceRunning(){
+        return ResponseEntity.ok("Handled By Attendance Service Running On Port: "+serverPort);
     }
 }
