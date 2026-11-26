@@ -17,8 +17,8 @@ public class RegisterRequest {
     private String email;
     @NotBlank
     private String password;
-    @NotNull
-    private Role role;
+//    @NotNull
+//    private Role role;
     @NotBlank
     private String department;
 }

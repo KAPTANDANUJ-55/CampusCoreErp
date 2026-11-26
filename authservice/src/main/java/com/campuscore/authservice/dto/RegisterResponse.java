@@ -1,16 +1,16 @@
 package com.campuscore.authservice.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+import com.campuscore.authservice.entity.Role;
 
-public class RegisterResponse {
-    private String username;
-    private String message;
+public interface RegisterResponse {
+
+    String getFullName();
+    default String getMessage() {
+        return "User: " + getFullName() + " is registered successfully!";
+    }
+
+     Role getRole();
+    String getDepartment();
+
 }
