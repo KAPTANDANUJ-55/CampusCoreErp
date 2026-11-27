@@ -23,7 +23,7 @@ public class RegistrationService {
     private final PasswordEncoder passwordEncoder;
     private JwtUtil jwtUtil;
 
-    @PostMapping("/register")
+    @PostMapping("/register{roleType}")
     public AuthResponse register(RegisterRequest registerRequest,Role targetRole,String requesterRole) {
         String cleanUserId = registerRequest.getUserId();
         String cleanEmail = registerRequest.getEmail();
