@@ -9,6 +9,8 @@ import java.util.Optional;
 public interface UserRepo extends JpaRepository<AppUser,Integer> {
 
     Optional<AppUser> findByUserId(String userId, Role role);
+    Optional<AppUser> findByEmail(String email, Role role);
+    Optional<AppUser> findByUserID(String id);
 
     boolean existsByEmail(String email);
     long countByRole(Role role);

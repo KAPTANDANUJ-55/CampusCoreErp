@@ -17,45 +17,12 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("api/auth/validate")
 @RequiredArgsConstructor
 public class AuthController {
-
     private final LoginService loginService;
-    private final RegistrationService registrationService;
-    private final UserRepo userRepo;
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(loginService.login(loginRequest));
-
+        @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) throws IllegalAccessException {
+       return ResponseEntity.ok(loginService.login(loginRequest));
     }
 
-    @PostMapping("/register/{roleType}")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest registerRequest,@RequestHeader(value = "X-User-Role", required = false) String requesterRole, @PathVariable String roleType) {
-        Role targetRole = parseRole(roleType);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registrationService.register(registerRequest,targetRole,requesterRole));
-    }
 
-    private Role parseRole(String roleType) {
-        return switch (roleType.trim().toLowerCase()) {
-            case "student" -> Role.ROLE_STUDENT;
-            case "teacher" -> Role.ROLE_STAFF;
-            case "hod" -> Role.ROLE_HOD;
-            case "principal" -> Role.ROLE_PRINCIPAL;
-            default -> throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Invalid role type: " + roleType + ". Allowed: student, teacher, hod, principal"
-            );
-        };
-    }
-
-    @GetMapping("/student/{enrollmentNo}")
-    private ResponseEntity<StudentInfoDto> getStudentInfo(@PathVariable String enrollmentNo) {
-            AppUser student = userRepo.findByUserId(enrollmentNo.trim(),Role.ROLE_STUDENT).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found with enrollment no: " + enrollmentNo));
-
-            return ResponseEntity.ok(new  StudentInfoDto(
-                    student.getUserId(),
-                    student.getDepartment(),
-                    student.getFullName(),
-                    student.isActive()
-            ));
-    }
 }
