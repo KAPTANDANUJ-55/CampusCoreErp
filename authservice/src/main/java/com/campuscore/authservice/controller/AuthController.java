@@ -18,11 +18,28 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class AuthController {
     private final LoginService loginService;
-
+    private final RegistrationService registrationService;
         @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) throws IllegalAccessException {
        return ResponseEntity.ok(loginService.login(loginRequest));
     }
+   public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest registerRequest, @PathVariable String roleType, @RequestHeader(value = "X-User-Role",required = false) String requesterRole) throws IllegalAccessException {
+       String normalized = roleType.trim().toLowerCase();
+
+
+       if (!normalized.startsWith("ROLE_")) normalized = "ROLE_" + normalized;
+
+       Role targetRole;
+       try {
+           targetRole = Role.valueOf(normalized);
+       } catch (IllegalArgumentException e) {
+           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid role: " + roleType);
+       }
+
+       return ResponseEntity.status(HttpStatus.CREATED)
+               .body(registrationService.register(registerRequest, targetRole, requesterRole));
+   }
+
 
 
 }

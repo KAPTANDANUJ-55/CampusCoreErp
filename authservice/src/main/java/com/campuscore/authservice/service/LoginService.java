@@ -24,7 +24,7 @@ public class LoginService {
    private final PasswordEncoder passwordEncoder;
 
 
-   public AuthResponse login(LoginRequest loginRequest, ) throws IllegalAccessException {
+   public AuthResponse login(LoginRequest loginRequest) throws IllegalAccessException {
        String id = loginRequest.getUserID();
        AppUser user = userRepo.findByUserID(id).orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST,"User not found"));
        if(user.getPassword()==null){
