@@ -23,7 +23,7 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) throws IllegalAccessException {
        return ResponseEntity.ok(loginService.login(loginRequest));
     }
-    @PostMapping("/register{roleType}")
+    @PostMapping("/register/{roleType}")
    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest registerRequest, @PathVariable String roleType, @RequestHeader(value = "X-User-Role",required = false) String requesterRole) throws IllegalAccessException {
        String normalized = roleType.trim().toLowerCase();
 
