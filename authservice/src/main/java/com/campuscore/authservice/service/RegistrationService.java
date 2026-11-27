@@ -7,11 +7,13 @@ import com.campuscore.authservice.entity.AppUser;
 import com.campuscore.authservice.entity.Role;
 import com.campuscore.authservice.repository.UserRepo;
 import com.campuscore.authservice.security.JwtUtil;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -21,6 +23,7 @@ public class RegistrationService {
     private final PasswordEncoder passwordEncoder;
     private JwtUtil jwtUtil;
 
+    @PostMapping("/register")
     public AuthResponse register(RegisterRequest registerRequest,Role targetRole,String requesterRole) {
         String cleanUserId = registerRequest.getUserId();
         String cleanEmail = registerRequest.getEmail();
