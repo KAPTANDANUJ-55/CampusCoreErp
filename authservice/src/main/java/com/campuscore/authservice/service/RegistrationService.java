@@ -27,7 +27,7 @@ public class RegistrationService {
     public AuthResponse register(RegisterRequest registerRequest,Role targetRole,String requesterRole) {
         String cleanUserId = registerRequest.getUserId();
         String cleanEmail = registerRequest.getEmail();
-        if(userRepo.existsByUserID(cleanUserId)){
+        if(userRepo.existsByUserId(cleanUserId)){
             throw new  ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
         }
         if(userRepo.existsByEmail(cleanEmail)){
