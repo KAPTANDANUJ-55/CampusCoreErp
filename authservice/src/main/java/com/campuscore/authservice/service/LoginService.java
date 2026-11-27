@@ -18,24 +18,4 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class LoginService {
 
-   private final UserRepo userRepo;
-   private final PasswordEncoder passwordEncoder;
-   private final TokenRepo tokenRepo;
-
-   public AuthResponse login(LoginRequest loginRequest) {
-       AppUser user = userRepo.findByUserId(loginRequest.getUserID()).orElseThrow(()->
-               new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Invalid username or password")
-               );
-
-       if(!user.isActive() || !passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())){
-           throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT,"Please enter valid credentials the tea taste is different!!");
-
-       }
-String token = UUID.randomUUID().toString();
-       tokenRepo.save(UserToken.builder().userId(loginRequest.getUserID()).expiryDate(LocalDateTime.now()).token(token).build());
-
-
-       return AuthResponse.builder().role(user.getRole()).department(user.getDepartment()).fullName(user.getFullName()).token(token).userId(user.getUserId()).build();
-   }
-
 }
