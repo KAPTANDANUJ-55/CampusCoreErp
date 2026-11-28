@@ -21,7 +21,7 @@ public class JwtUtil {
 private Resource privateKeyResource;
 @Value("${jwt.issuer}")
 private String issuer;
-@Value("$jwt.expiration")
+@Value("${jwt.expiration}")
 public long expirationMs;
 
 private PrivateKey privateKey;

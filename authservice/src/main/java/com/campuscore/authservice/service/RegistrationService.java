@@ -21,7 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class RegistrationService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
 
     public AuthResponse register(RegisterRequest registerRequest,Role targetRole,String requesterRole) {
@@ -35,9 +35,12 @@ public class RegistrationService {
         }
         Role role = parseRole(requesterRole);
         AppUser appUser = new AppUser();
+        appUser.setUserId(registerRequest.getUserId());
         appUser.setEmail(cleanEmail);
+        appUser.setFullName(registerRequest.getFullName());
         appUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        appUser.setRole(role);
+        appUser.setRole(targetRole);
+        appUser.setDepartment(registerRequest.getDepartment());
         appUser.setActive(true);
        AppUser savedUser= userRepo.save(appUser);
         return AuthResponse.builder()
@@ -50,6 +53,7 @@ public class RegistrationService {
 
     }
     private Role parseRole(String roleType) {
+        if(roleType==null || roleType.isBlank()) return null;
         String normalized = roleType.trim().toUpperCase();
         if (!normalized.startsWith("ROLE_")) {
             normalized = "ROLE_" + normalized;

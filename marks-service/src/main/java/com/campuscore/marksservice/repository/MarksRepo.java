@@ -9,12 +9,12 @@ import java.util.Optional;
 
 public interface MarksRepo extends JpaRepository<StudentMark, Long> {
 
-    Optional<StudentMark> findByStudentIdAndSubjectCodeAndExamType(
+    Optional<StudentMark> findByenrollmentNoAndSubjectCodeAndExamType(
             String studentId, String subjectCode, ExamType examType);
 
     List<StudentMark> findByenrollmentNo(String enrollmentNo);
 
-    List<StudentMark> findByStudentIdAndSemester(String studentId, Integer semester);
+    List<StudentMark> findByenrollmentNoAndSemester(String studentId, Integer semester);
 
     List<StudentMark> findBySubjectCodeAndExamType(String subjectCode, ExamType examType);
 }

@@ -25,7 +25,7 @@ public class AuthController {
     }
     @PostMapping("/register/{roleType}")
    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest registerRequest, @PathVariable String roleType, @RequestHeader(value = "X-User-Role",required = false) String requesterRole) throws IllegalAccessException {
-       String normalized = roleType.trim().toLowerCase();
+       String normalized = roleType.trim().toUpperCase();
 
 
        if (!normalized.startsWith("ROLE_")) normalized = "ROLE_" + normalized;

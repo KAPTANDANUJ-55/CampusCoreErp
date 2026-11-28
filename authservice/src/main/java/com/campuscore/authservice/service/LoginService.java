@@ -26,7 +26,7 @@ public class LoginService {
 
    public AuthResponse login(LoginRequest loginRequest) throws IllegalAccessException {
        String id = loginRequest.getUserID();
-       AppUser user = userRepo.findByUserID(id).orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST,"User not found"));
+       AppUser user = userRepo.findByUserId(id).orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST,"User not found"));
        if(user.getPassword()==null){
            throw new BadCredentialsException("This account uses Google Sign-In. Please login with Google.");
        }
@@ -35,7 +35,7 @@ public class LoginService {
            throw new IllegalAccessException("Account is not active please contact college admin");
        }
 
-        if( !user.getPassword().equals(loginRequest.getPassword())){
+        if( !passwordEncoder.matches(loginRequest.getPassword(),user.getPassword())){
             throw new BadCredentialsException("Invalid credentials");
        }
 

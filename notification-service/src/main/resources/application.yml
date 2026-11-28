@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: notification-service
+  datasource:
+    url: jdbc:h2:file:./data/notifications;MODE=MySQL
+    username: sa
+    password: ""
+  sql:
+    init:
+      mode: always
+  mvc:
+    problemdetails:
+      enabled: true
+  jackson:
+    datatype:
+      enum:
+        fail-on-numbers-for-enums: true
+server:
+  port: 8084
+  address: 127.0.0.1

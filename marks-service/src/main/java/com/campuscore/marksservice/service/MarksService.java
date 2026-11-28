@@ -43,7 +43,7 @@ public class MarksService {
             }
 
             StudentMark mark = marksRepo
-                    .findByStudentIdAndSubjectCodeAndExamType(
+                    .findByenrollmentNoAndSubjectCodeAndExamType(
                             enrollment,
                             req.getSubjectCode().trim().toUpperCase(),
                             req.getExamType())
@@ -67,7 +67,7 @@ public class MarksService {
     private List<MarkResponse> getStudentMarks(String enrollmentNo, Integer semester){
         List<StudentMark>  studentMarks = marksRepo.findByenrollmentNo(enrollmentNo);
         if(studentMarks.isEmpty()){
-            marksRepo.findByStudentIdAndSemester(enrollmentNo, semester);
+            marksRepo.findByenrollmentNoAndSemester(enrollmentNo, semester);
         }
          return studentMarks.stream().map(this::mapToResponse).toList();
     }
